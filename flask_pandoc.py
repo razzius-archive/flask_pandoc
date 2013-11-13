@@ -27,12 +27,16 @@ def create_documents(html):
 	formats = ['pdf', 'docx']
 	# 2013-11-12T19:59:09.768845.pdf, for example.
 	docs = ["{}.{}".format(iso_time, format) for format in formats]
-	threads = [
-		Thread(target=create_file, args=[html, doc])
-			for doc in docs
-		]
+	threads = []
+
+	for doc in docs:
+		thread = Thread(target=create_file, args=[html, doc])
+		thread.start()
+		threads.append(thread)
+
 	for thread in threads:
 		thread.join()
+
 	return docs
 
 def create_file(html, name):
