@@ -16,9 +16,19 @@ Configuration: Add these to your venv/bin/activate
 
 Running the server:
 
-`python flask_pandoc.py`
+`python flask_pandoc.py &`
 ` * Running on http://127.0.0.1:5000/`
+
+Give it a go:
+
+curl -d html='<i>Hello</i> <b>World</b>!' http://localhost:5000
 
 Other:
 
 `util.py` can be run to create a bucket for use with S3.
+
+Todo:
+
+- Error handling
+- Asynchronous conversion handling
+- Install on EC2
