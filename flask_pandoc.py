@@ -33,6 +33,7 @@ def create_documents(html):
 def create_file(html, name):
 	p = Popen(['pandoc', '-f', 'html', '-o', name], stdin=PIPE)
 	p.communicate(html)
+	p.wait()
 
 def upload_documents(docs):
 	conn = connect_s3(AWS_ACCESS_KEY_ID, AWS_SECRET_KEY)
