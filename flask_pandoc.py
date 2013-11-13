@@ -1,6 +1,7 @@
 from subprocess import Popen, PIPE
 from os import environ
 from datetime import datetime
+from threading import Thread
 
 from flask import Flask, request, abort, jsonify
 from boto import connect_s3, s3
@@ -26,8 +27,12 @@ def create_documents(html):
 	formats = ['pdf', 'docx']
 	# 2013-11-12T19:59:09.768845.pdf, for example.
 	docs = ["{}.{}".format(iso_time, format) for format in formats]
-	for doc in docs:
-		create_file(html, doc)
+	threads = [
+		Thread(target=create_file, args=[html, doc])
+			for doc in docs
+		]
+	for thread in threads:
+		thread.join()
 	return docs
 
 def create_file(html, name):
@@ -45,4 +50,4 @@ def upload_documents(docs):
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run('0.0.0.0', debug=True)
