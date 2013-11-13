@@ -17,6 +17,7 @@ def convert():
 	if not html:
 		abort(400)
 	docs = create_documents(html)
+	upload_documents(docs)
 	info = {"docs": docs}
 	return jsonify(info)
 
@@ -36,7 +37,6 @@ def create_documents(html):
 	for thread in threads:
 		thread.join()
 
-	upload_documents(docs)
 	return docs
 
 def create_file(html, name):
